@@ -1,0 +1,5 @@
+fastapi
+langchain
+langgraph
+boto3
+psycopg2
