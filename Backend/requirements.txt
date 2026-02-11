@@ -3,3 +3,9 @@ langchain
 langgraph
 boto3
 psycopg2
+passlib[bcrypt]
+python-jose[cryptography]
+sqlalchemy
+dotenv
+pydantic
+pydantic[email]
