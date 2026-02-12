@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 
 contact_router = APIRouter(
     prefix="/admin",
-    tags=["User Login and Signup"]
+    tags=["Admin Contact Route for Requesting Credentials."]
 )
 
 
