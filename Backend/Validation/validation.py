@@ -4,62 +4,59 @@ from jose import jwt,JWTError
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
 from dotenv import load_dotenv
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import os
 from fastapi import HTTPException,status,Depends
 from Database.Schemas import UserCredentials
 from Database.database import get_db
-
+from typing import Optional
 
 load_dotenv()
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+security = HTTPBearer()
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
 ACCESS_TOKEN_EXPIRE_MINUTES = os.getenv('ACCESS_TOKEN_EXPIRE_MINUTES')
 pwd_context = CryptContext(schemes=['bcrypt'],deprecated="auto")
 
-
-def create_acess_token(data:dict):
+class TokenData(BaseModel):
+    id : Optional[int] = None
+    
+def create_acess_token(data: dict):
     to_encode = data.copy()
-    expire = datetime.utcnow() + timedelta(minutes=320)
+    expire = datetime.utcnow() + timedelta(minutes=int(ACCESS_TOKEN_EXPIRE_MINUTES))
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 
-def verify_access_token(token: str):
+def verifiy_Acess_token(token:str, credential_Exception):
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        user_id: int = payload.get("user_id")
-        if user_id is None:
-            return None
-
-        return user_id
+        payload = jwt.decode(token,SECRET_KEY,[ALGORITHM])
+        user_id=payload.get("user_id")
+        if not user_id:
+            raise credential_Exception
+        token_data=TokenData(id=user_id)
+        return token_data
     except JWTError:
-        return None
+        raise credential_Exception
+
 
 def get_current_user(
-    token: str = Depends(oauth2_scheme),
-    db: Session = Depends(get_db)
+    credentials: HTTPAuthorizationCredentials = Depends(security)
 ):
-    user_id = verify_access_token(token)
+    token = credentials.credentials 
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=os.getenv("ALGORITHAM"))
+        user_id = payload.get("user_id")
+        if not user_id:
+            raise HTTPException(status_code=401, detail="Invalid token")
+        return int(user_id)
 
-    if user_id is None:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid or expired token",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Token expired")
 
-    user = db.query(UserCredentials).filter(UserCredentials.id == user_id).first()
-
-    if user is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="User not found"
-        )
-
-    return user
+    except jwt.InvalidTokenError:
+        raise HTTPException(status_code=401, detail="Invalid token")
 
 
 def hash_passwpord(plan_pass:str):

@@ -5,6 +5,7 @@ from Validation.validation import SignupValidation,LoginValidation,verify_passwo
 from Database.database import get_db
 from fastapi import status,HTTPException
 from Database.Schemas import UserCredentials
+from fastapi.security import OAuth2PasswordRequestForm
 
 auth_router = APIRouter(
     prefix="/auth",

@@ -10,3 +10,4 @@ dotenv
 pydantic
 pydantic[email]
 boto3
+python-multipart

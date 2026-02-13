@@ -2,31 +2,36 @@ import boto3
 import os
 from uuid import uuid4
 from dotenv import load_dotenv
+from Services.ImageGenratorhelper import genrate_image_from_prompt
 
 load_dotenv()
 
 bucket_name = os.getenv("bucket_name")
-aws_region = os.getnenv("aws_region")
+aws_region = os.getenv("AWS_REGION")
 s3 = boto3.client(
     "s3",
-    aws_access_key_id=os.getenv("Access_key_ID"),
-    aws_secret_access_key=os.getenv("Secret_access_key"),
-    region_name=os.getenv("aws_region")
+    aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
+    aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
+    region_name=os.getenv("AWS_REGION")
 )
 
+def upload_image_to_s3(image_bytes):
+    
+    filename = f"{uuid4()}.png"
 
-def upload_multiple_images_to_s3(image_bytes_list):
-    urls = []
-    for img_bytes in image_bytes_list:
-        filename = f"images/{uuid4()}.png"
-        s3.put_object(
-            Bucket=bucket_name,
-            Key=filename,
-            Body=img_bytes,
-            ContentType="image/png",
-            ACL="public-read"
-        )
-        url = f"https://{bucket_name}.s3.{aws_region}.amazonaws.com/{filename}"
-        urls.append(url)
+    s3.put_object(
+        Bucket=bucket_name,
+        Key=filename,
+        Body=image_bytes,
+        ContentType="image/png",
+    )
 
-    return urls
+    image_url = f"https://{bucket_name}.s3.{aws_region}.amazonaws.com/{filename}"
+    return image_url
+
+
+if __name__ == "__main__":
+    prompt = "A boy with beautiful looking face having green eyes smooth and silky hair look at her princes."
+    img_bytes=genrate_image_from_prompt(prompt=prompt)
+    url=upload_image_to_s3(image_bytes=img_bytes)
+    print(url)

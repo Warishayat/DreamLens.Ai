@@ -37,9 +37,18 @@ def prompt_for_image(user_prompt: str):
     final_prompt = SYSTEM_PROMPT + "\nUser idea: " + user_prompt
 
     payload = {
-        "inputText": final_prompt,
-        "textGenerationConfig": {
-            "maxTokenCount": 900,
+        "messages": [
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "text": final_prompt
+                    }
+                ]
+            }
+        ],
+        "inferenceConfig": {
+            "maxTokens": 900,
             "temperature": 0.7,
             "topP": 0.9
         }
@@ -53,7 +62,9 @@ def prompt_for_image(user_prompt: str):
     )
 
     result = json.loads(response["body"].read())
-    return result["results"][0]["outputText"]
+    return result["output"]["message"]["content"][0]["text"]
+
+
 
 
 if __name__ == "__main__":

@@ -5,7 +5,7 @@ from Database.database import get_db
 from Database.Schemas import ImageData
 from Services.ImageGenratorhelper import genrate_image_from_prompt
 from Prompts.Prompt import prompt_for_image
-from Utils.s3 import upload_multiple_images_to_s3
+from Utils.s3 import upload_image_to_s3
 
 img_router = APIRouter(prefix="/generate", tags=["Image Generation"])
 
@@ -16,7 +16,7 @@ async def generate_image(
     user_id: int = Depends(get_current_user)
 ):
     try:
-        last = await db.query(ImageData)\
+        last = db.query(ImageData)\
                 .filter(ImageData.user_id == user_id)\
                 .order_by(ImageData.img_id.desc())\
                 .first()
@@ -30,28 +30,23 @@ async def generate_image(
             )
 
         enhanced_prompt = prompt_for_image(data.prompt)
-        images = await genrate_image_from_prompt(enhanced_prompt)
-        if not images:
-            raise HTTPException(500, "Image generation failed")
-
-        image_urls = await upload_multiple_images_to_s3(images)
+        byte_img = genrate_image_from_prompt(prompt=enhanced_prompt)
+        image_url = upload_image_to_s3(image_bytes=byte_img)
         new_count = img_count + 1
         record = ImageData(
             user_id=user_id,
             prompt=data.prompt,
-            image_url=image_urls[0],  
+            image_url=image_url,  
             img_count=new_count
         )
-
         db.add(record)
         db.commit()
         db.refresh(record)
-
         return {
             "success": True,
             "message": "Image generated",
-            "image": image_urls,
+            "image": image_url,
             "remaining": 6 - new_count
         }
     except Exception as e:
-        raise HTTPException(status_code=502,detail="Internel Server Error.Try Again later.")
+        raise HTTPException(status_code=502,detail=str(e))

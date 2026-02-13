@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from Routes.auth import auth_router
 from Routes.contact import contact_router
+from Routes.images import img_router
 from Database.database import engine,Base
 from fastapi.middleware.cors import CORSMiddleware
 from Database import Schemas
@@ -8,6 +9,7 @@ from Database import Schemas
 
 Base.metadata.create_all(bind=engine)
 print(Base.metadata.tables.keys())
+
 app = FastAPI(title="DreamLens.Ai")
 
 app.add_middleware(
@@ -28,3 +30,4 @@ def welcome():
 
 app.include_router(auth_router)
 app.include_router(contact_router)
+app.include_router(img_router)

@@ -18,7 +18,7 @@ class ImageData(Base):
     user_id = Column(Integer,ForeignKey("user_credentials.user_id",ondelete='CASCADE'),nullable=False)
     prompt =Column(String,nullable=False)
     image_url = Column(String,nullable=False)
-    img_count = Column(Integer,Nullable=False,default=0)
+    img_count = Column(Integer,nullable=False,default=0)
     created_at = Column(TIMESTAMP(timezone=True),nullable=True,server_default=(text("now()")))
 
 class VideoData(Base):
@@ -27,6 +27,7 @@ class VideoData(Base):
     user_id = Column(Integer,ForeignKey('user_credentials.user_id',ondelete='CASCADE'),nullable=False)
     prompt = Column(String,nullable=False)
     video_url = Column(String,nullable=False)
+    vid_count = Column(Integer,nullable=False,default=0)
     created_at = Column(TIMESTAMP(timezone=True),nullable=True,server_default=(text("now()")))
 
 
