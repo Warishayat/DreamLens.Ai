@@ -1,7 +1,7 @@
 from fastapi.routing import APIRouter
 from fastapi import HTTPException,Depends
 from sqlalchemy.orm import Session
-from Validation.validation import SignupValidation,LoginValidation,verify_password,hash_passwpord,create_acess_token
+from Validation.validation import SignupValidation,LoginValidation,verify_password,hash_password,create_acess_token
 from Database.database import get_db
 from fastapi import status,HTTPException
 from Database.Schemas import UserCredentials
@@ -19,7 +19,7 @@ async def Signup(data:SignupValidation,db:Session=Depends(get_db)):
         if check_user:
             raise HTTPException(status_code=400, detail="User already exists")
 
-        hashed_password = hash_passwpord(data.password)
+        hashed_password = hash_password(data.password)
 
         new_user = UserCredentials(
             name=data.name,

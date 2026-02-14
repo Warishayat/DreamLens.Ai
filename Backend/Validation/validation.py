@@ -59,7 +59,7 @@ def get_current_user(
         raise HTTPException(status_code=401, detail="Invalid token")
 
 
-def hash_passwpord(plan_pass:str):
+def hash_password(plan_pass:str):
     return pwd_context.hash(plan_pass)
 
 def verify_password(plan_pas:str,hashed_pass:str):

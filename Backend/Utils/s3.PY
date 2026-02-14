@@ -29,9 +29,8 @@ def upload_image_to_s3(image_bytes):
     image_url = f"https://{bucket_name}.s3.{aws_region}.amazonaws.com/{filename}"
     return image_url
 
-
 if __name__ == "__main__":
-    prompt = "A boy with beautiful looking face having green eyes smooth and silky hair look at her princes."
+    prompt = "A kitten playing in a garden chasing a rat"
     img_bytes=genrate_image_from_prompt(prompt=prompt)
     url=upload_image_to_s3(image_bytes=img_bytes)
     print(url)

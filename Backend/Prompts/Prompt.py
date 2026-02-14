@@ -64,9 +64,41 @@ def prompt_for_image(user_prompt: str):
     result = json.loads(response["body"].read())
     return result["output"]["message"]["content"][0]["text"]
 
+def prompt_for_video(user_prompt: str):
+    final_prompt = SYSTEM_PROMPT + "\nUser idea: " + user_prompt
+
+    payload = {
+        "messages": [
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "text": final_prompt
+                    }
+                ]
+            }
+        ],
+        "inferenceConfig": {
+            "maxTokens": 900,
+            "temperature": 0.7,
+            "topP": 0.9
+        }
+    }
+
+    response = llm.invoke_model(
+        modelId="amazon.nova-lite-v1:0",
+        body=json.dumps(payload),
+        contentType="application/json",
+        accept="application/json"
+    )
+
+    result = json.loads(response["body"].read())
+    return result["output"]["message"]["content"][0]["text"]
 
 
 
 if __name__ == "__main__":
     res = prompt_for_image("poor kid dreaming of success")
+    res2 = prompt_for_video("A cat chasing a mouse")
     print(res)
+    print(res2)
