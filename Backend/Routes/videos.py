@@ -4,7 +4,6 @@ from Validation.validation import VideoGenValidation,get_current_user
 from Database.database import  get_db
 from Database.Schemas import VideoData
 from Prompts.Prompt import prompt_for_video
-from Utils.s3 import upload_video_to_s3
 from Services.VideoGeneratorhelper import generate_video_from_prompt
 
 video_router = APIRouter(prefix="/generate",tags=["Video Generation"])
@@ -21,7 +20,7 @@ async def generate_video(
             .order_by(VideoData.video_id.desc())\
             .first()
         
-        video_count = last.video_count if last else 0
+        video_count = last.vid_count if last else 0
 
         if video_count >= 2:
             raise HTTPException(
@@ -30,14 +29,13 @@ async def generate_video(
             )
         
         enhanced_prompt = prompt_for_video(data.prompt)
-        video_bytes = generate_video_from_prompt(prompt=enhanced_prompt)
-        video_url = upload_video_to_s3(video_bytes=video_bytes)
+        video_url = generate_video_from_prompt(prompt=enhanced_prompt)
         new_count = video_count + 1
         record = VideoData(
             user_id=user_id,
             prompt=data.prompt,
             video_url=video_url,
-            video_count=new_count
+            vid_count=new_count
         )
         db.add(record)
         db.commit()

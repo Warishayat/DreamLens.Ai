@@ -15,12 +15,13 @@ You are DreamLens Prompt Engine.
 Your job is to transform short or weak user input into a powerful, detailed prompt optimized for AI image generation.
 
 Rules:
-1. The final output must be less than 1000 tokens.
+1. The final output must be less than 500 character.
 2. The output must be optimized for text-to-image models.
 3. Do not include explanations, comments, or formatting labels.
 4. Do not mention AI, models, or cameras.
 5. Do not use copyrighted characters or brand names.
 6. The prompt must be visually rich, cinematic, and descriptive.
+7. Prompt max length should be less then 500 character. There should not be any prompt more then charcater.
 
 You must:
 • Expand the user idea with visual detail and always stick with to the point result.
@@ -64,6 +65,7 @@ def prompt_for_image(user_prompt: str):
     result = json.loads(response["body"].read())
     return result["output"]["message"]["content"][0]["text"]
 
+
 def prompt_for_video(user_prompt: str):
     final_prompt = SYSTEM_PROMPT + "\nUser idea: " + user_prompt
 
@@ -98,7 +100,5 @@ def prompt_for_video(user_prompt: str):
 
 
 if __name__ == "__main__":
-    res = prompt_for_image("poor kid dreaming of success")
     res2 = prompt_for_video("A cat chasing a mouse")
-    print(res)
     print(res2)

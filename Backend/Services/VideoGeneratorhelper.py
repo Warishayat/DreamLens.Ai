@@ -3,6 +3,8 @@ import boto3
 import time
 import os
 from dotenv import load_dotenv
+from Prompts.Prompt import prompt_for_video 
+from Utils.s3 import make_video_streamable
 
 load_dotenv()
 
@@ -51,16 +53,18 @@ def generate_video_from_prompt(prompt: str):
 
 
 def wait_for_job(job_arn):
-
+    print("this is may take upto 1 minut!!! please wait for a moment.")
     while True:
         result = bedrock.get_async_invoke(invocationArn=job_arn)
         status = result["status"]
-        print("Status:", status)
 
         if status == "Completed":
             job_id = job_arn.split("/")[-1]
-            return f"https://{BUCKET_NAME}.s3.{AWS_REGION}.amazonaws.com/generated/{job_id}/output.mp4"
+            key = f"generated/{job_id}/output.mp4"
 
+            make_video_streamable(BUCKET_NAME, key)
+
+            return f"https://{BUCKET_NAME}.s3.{AWS_REGION}.amazonaws.com/{key}"
 
         if status == "Failed":
             raise Exception("Video generation failed")
@@ -68,8 +72,11 @@ def wait_for_job(job_arn):
         time.sleep(5)
 
 
+
 if __name__ == "__main__":
+    prompt = "A boy is sitting in front of castle playing luddo with his girlfriend"
+    final_prompt = prompt_for_video(user_prompt=prompt)
     url = generate_video_from_prompt(
-        "a cinematic 3 seconds video of a dog playing with a ball in a green park"
+        prompt=final_prompt
     )
     print("Video URL:", url)

@@ -24,10 +24,21 @@ def upload_image_to_s3(image_bytes):
         Key=filename,
         Body=image_bytes,
         ContentType="image/png",
+
     )
 
     image_url = f"https://{bucket_name}.s3.{aws_region}.amazonaws.com/{filename}"
     return image_url
+
+def make_video_streamable(bucket, key):
+    s3.copy_object(
+        Bucket=bucket,
+        CopySource={"Bucket": bucket, "Key": key},
+        Key=key,
+        ContentType="video/mp4",
+        ContentDisposition="inline",
+        MetadataDirective="REPLACE"
+    )
 
 if __name__ == "__main__":
     prompt = "A kitten playing in a garden chasing a rat"
