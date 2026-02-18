@@ -19,10 +19,12 @@ const Login = () => {
     };
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/auth/login', payload);
+      const response = await axios.post('https://dreamlens-ai.onrender.com/auth/login', payload);
+      const token = response.data.acess_token;
+  
       if (response.data) {
         toast.success('Welcome Back! ✨');
-        localStorage.setItem('token', response.data.access_token);
+        localStorage.setItem('token', token);
         setTimeout(() => navigate('/dashboard'), 1000);
       }
     } catch (error) {

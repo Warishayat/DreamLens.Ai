@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast, Toaster } from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Signup = () => {
+  const Navigate = useNavigate();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,9 +21,10 @@ const Signup = () => {
     };
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/register', payload);
+      const response = await axios.post('https://dreamlens-ai.onrender.com/auth/signup', payload);
       if (response.data) {
         toast.success('Portal Opened! Welcome Dreamer ✨');
+        Navigate("/login")
       }
     } catch (error) {
       toast.error(error.response?.data?.detail || 'Connection lost in dreams...');
@@ -34,8 +36,7 @@ const Signup = () => {
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-[#050505] relative overflow-hidden font-sans p-4">
       <Toaster position="top-right" />
-      
-      {/* Background Animated Blobs */}
+    
       <div className="absolute top-[-10%] left-[-10%] w-[400px] h-[400px] bg-purple-600/20 rounded-full blur-[120px] animate-pulse"></div>
       <div className="absolute bottom-[-10%] right-[-10%] w-[400px] h-[400px] bg-cyan-600/20 rounded-full blur-[120px] animate-pulse delay-700"></div>
 

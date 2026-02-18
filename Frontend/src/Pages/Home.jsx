@@ -41,7 +41,7 @@ const Home = () => {
             <Link to={token ? "/image-story" : "/login"} className="group relative w-full sm:w-auto overflow-hidden rounded-xl bg-white px-10 py-4 transition-all">
               <div className="absolute inset-0 w-0 bg-purple-600 transition-all duration-[400ms] ease-out group-hover:w-full"></div>
               <span className="relative text-black font-black tracking-widest text-[11px] group-hover:text-white transition-colors duration-300">
-                {token ? "DASHBOARD" : "START CREATING"}
+                {token ? "CREAT STORY" : "START CREATING"}
               </span>
             </Link>
 
