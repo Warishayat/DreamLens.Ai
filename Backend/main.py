@@ -9,8 +9,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from Database import Schemas
 
 
-Base.metadata.create_all(bind=engine)
-print(Base.metadata.tables.keys())
 
 app = FastAPI(title="DreamLens.Ai")
 
@@ -22,6 +20,10 @@ app.add_middleware(
     allow_headers = ["*"]
 )
 
+@app.on_event("startup")
+def on_startup():
+    Base.metadata.create_all(bind=engine)
+    print("Tables:", Base.metadata.tables.keys())
 
 @app.get("/")
 def welcome():
