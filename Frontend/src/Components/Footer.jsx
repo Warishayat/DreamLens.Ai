@@ -86,3 +86,5 @@ const Footer = () => {
 };
 
 export default Footer;
+
+// everything is working fine yeah
