@@ -3,6 +3,9 @@ import os
 from uuid import uuid4
 from dotenv import load_dotenv
 from Services.ImageGenratorhelper import genrate_image_from_prompt
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 load_dotenv()
 
