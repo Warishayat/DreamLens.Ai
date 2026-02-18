@@ -4,7 +4,7 @@ langgraph
 boto3
 psycopg2
 passlib[bcrypt]
-python-jose[cryptography]
+PyJWT
 bcrypt=3.2.0
 sqlalchemy
 dotenv
