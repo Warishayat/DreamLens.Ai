@@ -10,6 +10,7 @@ import VideoCreation from './Pages/VideoCreation';
 import Dashboard from './Pages/Dashboard';
 import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
+import NotFound from './Pages/NotFound';
 
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem('token');
@@ -45,6 +46,7 @@ function App() {
           <Route path="/login" element={<Login/>} />
           <Route path="/signup" element={<Signup/>} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<NotFound/>} />
 
           <Route 
             path="/dashboard" 
