@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.responses import FileResponse
 from Routes.auth import auth_router
 from Routes.contact import contact_router
 from Routes.dashboard import dashbaord_router
@@ -37,3 +38,7 @@ app.include_router(contact_router)
 app.include_router(img_router)
 app.include_router(dashbaord_router)
 app.include_router(video_router)
+
+@app.get("/{full_path:path}")
+async def serve_react(full_path: str):
+    return FileResponse("Frontend/dist/index.html")
