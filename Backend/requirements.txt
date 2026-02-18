@@ -2,6 +2,7 @@ fastapi
 langchain
 langgraph
 boto3
+uvicorn
 psycopg2
 passlib[bcrypt]
 PyJWT
