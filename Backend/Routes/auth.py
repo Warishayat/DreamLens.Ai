@@ -52,7 +52,7 @@ async def Login(data:LoginValidation,db:Session=Depends(get_db)):
         verify_pass = verify_password(data.password,check_user.password)
         if not verify_pass:
             raise HTTPException(
-                status_code = status.HTTP_404_NOT_FOUND,
+                status_code = status.HTTP_401_UNAUTHORIZED,
                 detail = "Credential are invalid" 
             )
         acess_token = create_acess_token(data={"user_id":check_user.user_id})
