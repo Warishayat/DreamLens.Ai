@@ -46,7 +46,7 @@ async def Login(data:LoginValidation,db:Session=Depends(get_db)):
         check_user = db.query(UserCredentials).filter(UserCredentials.email==data.email).first()
         if not check_user:
             raise HTTPException(
-                status_code = status.HTTP_404_NOT_FOUND,
+                status_code = status.HTTP_401_UNAUTHORIZED, 
                 detail = "Credential are invalid" 
             )
         verify_pass = verify_password(data.password,check_user.password)
