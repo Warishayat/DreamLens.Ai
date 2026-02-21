@@ -17,9 +17,9 @@ BUCKET_NAME = os.getenv('bucket_name')
 
 bedrock = boto3.client(
     "bedrock-runtime",
-    region_name=AWS_REGION,
-    aws_access_key_id=ACCESS_KEY,
-    aws_secret_access_key=SECRET_KEY,
+    region_name=AWS_REGION.strip(),
+    aws_access_key_id=ACCESS_KEY.strip(),
+    aws_secret_access_key=SECRET_KEY.strip(),
 )
 
 def generate_video_from_prompt(prompt: str):

@@ -46,6 +46,6 @@ async def get_dashboard(db: Session = Depends(get_db),user_id: UserCredentials =
         }
     except Exception as e:
         raise HTTPException(
-            status_code=501,
+            status_code=500,
             detail=str(e)
         )

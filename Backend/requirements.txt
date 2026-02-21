@@ -2,10 +2,9 @@ fastapi
 langchain
 boto3
 uvicorn
-psycopg2
+psycopg2-binary
 passlib[bcrypt]
 python-jose[cryptography]
-PyJWT
 bcrypt==3.2.0
 sqlalchemy
 dotenv
@@ -13,3 +12,5 @@ pydantic
 pydantic[email]
 boto3
 python-multipart
+slowapi
+redis

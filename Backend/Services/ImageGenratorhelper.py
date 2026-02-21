@@ -13,9 +13,9 @@ aws_region = os.getenv("AWS_REGION")
 
 client = boto3.client(
     "bedrock-runtime",
-    region_name=aws_region,
-    aws_access_key_id=Access_key_ID,
-    aws_secret_access_key=Secret_access_key,
+    region_name=aws_region.strip(),
+    aws_access_key_id=Access_key_ID.strip(),
+    aws_secret_access_key=Secret_access_key.strip(),
 )
 
 def genrate_image_from_prompt(prompt: str):
