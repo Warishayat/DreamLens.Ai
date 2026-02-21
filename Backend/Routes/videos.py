@@ -50,4 +50,4 @@ async def generate_video(
             "remaining": 2 - new_count
         }
     except Exception as e:
-        raise HTTPException(status_code=502,detail=str(e))
+        raise HTTPException(status_code=500,detail=str(e))

@@ -13,7 +13,7 @@ const Dashboard = () => {
   const fetchDashboardData = async () => {
     const token = localStorage.getItem('token');
     try {
-      const response = await axios.get('https://dreamlens-ai.onrender.com/dashboard/user', {
+      const response = await axios.get('https://dreamlens-xp1l.onrender.com/dashboard/user', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setData(response.data);

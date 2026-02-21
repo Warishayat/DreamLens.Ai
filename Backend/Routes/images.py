@@ -49,4 +49,4 @@ async def generate_image(
             "remaining": 6 - new_count
         }
     except Exception as e:
-        raise HTTPException(status_code=502,detail=str(e))
+        raise HTTPException(status_code=500,detail=str(e))

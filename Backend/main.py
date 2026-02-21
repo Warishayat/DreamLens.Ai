@@ -11,14 +11,10 @@ from Database import Schemas
 from slowapi import _rate_limit_exceeded_handler
 from Utils.limiter import limiter
 from slowapi.errors import RateLimitExceeded
+from slowapi.middleware import SlowAPIMiddleware
 
 
 app = FastAPI(title="DreamLens.Ai")
-app.state.limiter = limiter
-app.add_exception_handler(
-    RateLimitExceeded,_rate_limit_exceeded_handler
-)
-
 
 app.add_middleware(
     CORSMiddleware,
@@ -26,6 +22,11 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods = ["*"],
     allow_headers = ["*"]
+)
+app.state.limiter = limiter
+app.add_middleware(SlowAPIMiddleware)
+app.add_exception_handler(
+    RateLimitExceeded,_rate_limit_exceeded_handler
 )
 
 @app.on_event("startup")

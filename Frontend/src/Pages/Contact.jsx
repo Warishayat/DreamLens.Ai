@@ -15,7 +15,7 @@ const Contact = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post('https://dreamlens-ai.onrender.com/admin/contact', payload);
+      await axios.post('https://dreamlens-xp1l.onrender.com/admin/contact', payload);
       toast.success('Neural link established!');
       setPayload({ name: '', email: '', topic: 'Request Credits', message: '' });
     } catch (error) {

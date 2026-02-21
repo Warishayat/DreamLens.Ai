@@ -26,7 +26,7 @@ const ImageCreation = () => {
 
     try {
       const response = await axios.post(
-        'https://dreamlens-ai.onrender.com/generate/image', 
+        'https://dreamlens-xp1l.onrender.com/generate/image', 
         { prompt }, 
         {
           headers: {

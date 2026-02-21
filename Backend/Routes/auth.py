@@ -66,4 +66,4 @@ async def Login(request:Request,data:LoginValidation,db:Session=Depends(get_db))
             "token_type" : "Bearer"
         }
     except Exception as e:
-        raise HTTPException(status_code=501,detail=str(e))
+        raise HTTPException(status_code=500,detail=str(e))
