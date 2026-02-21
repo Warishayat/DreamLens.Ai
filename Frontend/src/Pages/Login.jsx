@@ -19,7 +19,7 @@ const Login = () => {
     };
 
     try {
-      const response = await axios.post('https://dreamlens-ai.onrender.com/auth/login', payload);
+      const response = await axios.post('https://dreamlens-xp1l.onrender.com/auth/login', payload);
       const token = response.data.acess_token;
   
       if (response.data) {

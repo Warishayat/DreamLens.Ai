@@ -21,7 +21,7 @@ const Signup = () => {
     };
 
     try {
-      const response = await axios.post('https://dreamlens-ai.onrender.com/auth/signup', payload);
+      const response = await axios.post('https://dreamlens-xp1l.onrender.com/auth/signup', payload);
       if (response.data) {
         toast.success('Portal Opened! Welcome Dreamer ✨');
         Navigate("/login")

@@ -23,7 +23,7 @@ const VideoStory = () => {
 
     try {
       const response = await axios.post(
-        'https://dreamlens-ai.onrender.com/generate/video',
+        'https://dreamlens-xp1l.onrender.com/generate/video',
         { prompt },
         { headers: { Authorization: `Bearer ${token}` } }
       );
