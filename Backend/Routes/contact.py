@@ -5,6 +5,7 @@ from Database.database import get_db
 from Database.Schemas import ContactAdmin
 from sqlalchemy.orm import Session
 
+
 contact_router = APIRouter(
     prefix="/admin",
     tags=["Admin Contact Route for Requesting Credentials."]

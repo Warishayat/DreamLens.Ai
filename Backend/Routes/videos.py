@@ -5,11 +5,14 @@ from Database.database import  get_db
 from Database.Schemas import VideoData
 from Prompts.Prompt import prompt_for_video
 from Services.VideoGeneratorhelper import generate_video_from_prompt
-
+from Utils.limiter import limiter
+from fastapi import Request
 video_router = APIRouter(prefix="/generate",tags=["Video Generation"])
 
 @video_router.post('/video',status_code=status.HTTP_201_CREATED)
+@limiter.limit('1/3 minutes')
 async def generate_video(
+    request:Request,
     data:VideoGenValidation,
     db:Session = Depends(get_db),
     user_id:int = Depends(get_current_user)

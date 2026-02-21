@@ -6,6 +6,9 @@ from Database.database import get_db
 from fastapi import status,HTTPException
 from Database.Schemas import UserCredentials
 from fastapi.security import OAuth2PasswordRequestForm
+from Utils.limiter import limiter 
+from fastapi import Request
+
 
 auth_router = APIRouter(
     prefix="/auth",
@@ -13,7 +16,8 @@ auth_router = APIRouter(
 )
 
 @auth_router.post("/signup")
-async def Signup(data:SignupValidation,db:Session=Depends(get_db)):
+@limiter.limit("5/minute")
+async def Signup(request:Request,data:SignupValidation,db:Session=Depends(get_db)):
     check_user = db.query(UserCredentials).filter(UserCredentials.email == data.email).first()
     try:
         if check_user:
@@ -41,7 +45,8 @@ async def Signup(data:SignupValidation,db:Session=Depends(get_db)):
 
 
 @auth_router.post("/login")
-async def Login(data:LoginValidation,db:Session=Depends(get_db)):
+@limiter.limit("5/minute")
+async def Login(request:Request,data:LoginValidation,db:Session=Depends(get_db)):
     try:
         check_user = db.query(UserCredentials).filter(UserCredentials.email==data.email).first()
         if not check_user:
