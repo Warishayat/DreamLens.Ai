@@ -7,7 +7,7 @@ import os
 load_dotenv()
 
 DATABASE_URI = os.getenv('DATABASE_URI')
-engine = create_engine(DATABASE_URI)
+engine = create_engine(DATABASE_URI,pool_pre_ping=True,pool_recycle=300,pool_size=5,max_overflow=5)
 SessionLocal = sessionmaker(autoflush=False,autocommit=False,bind=engine)
 Base = declarative_base()
 

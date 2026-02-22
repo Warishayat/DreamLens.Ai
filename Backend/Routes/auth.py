@@ -41,7 +41,7 @@ async def Signup(request:Request,data:SignupValidation,db:Session=Depends(get_db
             "email": new_user.email
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail="Internal Server error. try again later")
 
 
 @auth_router.post("/login")
@@ -66,4 +66,4 @@ async def Login(request:Request,data:LoginValidation,db:Session=Depends(get_db))
             "token_type" : "Bearer"
         }
     except Exception as e:
-        raise HTTPException(status_code=500,detail=str(e))
+        raise HTTPException(status_code=500,etail="Internal Server error. try again later")
