@@ -22,11 +22,9 @@ const LayoutWrapper = ({ children }) => {
   const hideLayout = ['/login', '/signup'].includes(location.pathname);
 
   return (
-    /* flex-col aur min-h-screen footer ko hamesha niche rakhega */
     <div className="flex flex-col min-h-screen bg-[#050505]">
       {!hideLayout && <Navbar />}
       
-      {/* flex-grow bachi hui saari jagah le lega taake footer niche push ho jaye */}
       <main className={`flex-grow ${!hideLayout ? "pt-24" : ""}`}>
         {children}
       </main>
