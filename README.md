@@ -8,6 +8,7 @@
   <img src="https://img.shields.io/badge/Database-PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white"/>
   <img src="https://img.shields.io/badge/Caching-Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white"/>
   <img src="https://img.shields.io/badge/Storage-AWS_S3-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Model-AWS_BEDROCK-FF9900?style=for-the-badge&logo=amazonaws&logoColor=Blue"/>
   <img src="https://img.shields.io/badge/Container-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"/>
   <img src="https://img.shields.io/badge/Deployed-Render-46E3B7?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/Hackathon-Amazon_Nova-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white"/>
